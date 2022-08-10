@@ -24,5 +24,3 @@ branches(sd.get_point(600, 0), 90, 150, 0 - sd.random_number(18, 42))
 
 
 sd.pause()
-
-#dfghjk
