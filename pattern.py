@@ -1,14 +1,22 @@
 # -*- coding: utf-8 -*-
 
 import simple_draw as sd
+from termcolor import colored
 
 sd.resolution = (1200, 800)
-COLOR_PEACH = (255, 218, 185)
+background_colors = {'PEACH': (255, 218, 185),
+                     'DARKRED': (139, 0, 0),
+                     'INDIANRED': (205, 92, 92),
+                     'PLUM': (221, 160, 221),
+                     'OLIVE': (128, 128, 0),
+                     'TURQUOISE': (64, 224, 208),
+                     'CORNFLOWERBLUE': (100, 149, 237),
+                     'WHEAT': (245, 222, 179)}
+
 COLOR_SEA_GREEN = (46, 139, 87)
 COLOR_YELLOW_GREEN = (154, 205, 50)
 COLOR_AQUAMARINE = (102, 205, 170)
 COLOR_SKY_BLUE = (135, 206, 235)
-sd.background_color = COLOR_PEACH
 
 
 def pattern(start_point, angle, length, width):
@@ -125,30 +133,30 @@ def pattern(start_point, angle, length, width):
               color=sd.COLOR_DARK_PURPLE, width=5)
 
 
+print(background_colors.keys())
+
+while True:
+    user_input = input(colored('Enter background color. Please use UPPERCASE only', color='magenta',
+                               on_color='on_grey'))
+    if user_input not in background_colors:
+        print('Incorrect! Try again')
+        continue
+    else:
+        sd.background_color = background_colors[user_input]
+        break
+
 for x in range(-30, 1300, 340):
-    pattern(sd.get_point(x, -10), 70, 30, 5)
-for x in range(-30, 1300, 340):
-    pattern(sd.get_point(x, 310), 70, 30, 5)
-for x in range(-30, 1300, 340):
-    pattern(sd.get_point(x, 630), 70, 30, 5)
+    for y in range(-10, 640, 320):
+        pattern(sd.get_point(x, y), 70, 30, 5)
 for x in range(140, 1300, 340):
-    pattern(sd.get_point(x, -40), 70, 30, 5)
-for x in range(140, 1300, 340):
-    pattern(sd.get_point(x, 280), 70, 30, 5)
-for x in range(140, 1300, 340):
-    pattern(sd.get_point(x, 600), 70, 30, 5)
+    for y in range(-40, 610, 320):
+        pattern(sd.get_point(x, y), 70, 30, 5)
 for x in range(-10, 1300, 340):
-    pattern(sd.get_point(x, 120), 70, 30, 5)
-for x in range(-10, 1300, 340):
-    pattern(sd.get_point(x, 440), 70, 30, 5)
-for x in range(-10, 1300, 340):
-    pattern(sd.get_point(x, 760), 70, 30, 5)
+    for y in range(120, 770, 320):
+        pattern(sd.get_point(x, y), 70, 30, 5)
 for x in range(160, 1300, 340):
-    pattern(sd.get_point(x, 150), 70, 30, 5)
-for x in range(160, 1300, 340):
-    pattern(sd.get_point(x, 470), 70, 30, 5)
-for x in range(160, 1300, 340):
-    pattern(sd.get_point(x, 790), 70, 30, 5)
+    for y in range(150, 800, 320):
+        pattern(sd.get_point(x, y), 70, 30, 5)
 
 
 sd.pause()
