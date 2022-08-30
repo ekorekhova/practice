@@ -5,6 +5,8 @@ from termcolor import cprint
 
 
 class Human:
+    money_earned = 0
+    money_spent = 0
 
     def __init__(self, name):
         self.name = name
@@ -32,13 +34,15 @@ class Human:
         self.house.money += 80
         self.fullness -= 10
         self.happiness -= 60
+        Human.money_earned += 80
 
     def groceries(self):
         if self.house.money >= 50:
             print('{} bought groceries'.format(self.name))
-            self.house.money -= 50
+            self.house.money -= 40
             self.house.food += 50
             self.happiness -= 10
+            Human.money_spent += 40
         else:
             print('{} NO MONEY!'.format(self.name))
 
@@ -59,15 +63,16 @@ class Human:
     def buy_cat_food(self):
         if self.house.money >= 50:
             print('{} bought cat food'.format(self.name))
-            self.house.money -= 50
+            self.house.money -= 40
             self.house.cat_food += 50
             self.happiness -= 10
+            Human.money_spent += 40
         else:
             print('{} NO MONEY!'.format(self.name))
 
     def clean_the_house(self):
         print('{} cleaned the house'.format(self.name))
-        self.house.dirt -= 100
+        self.house.dirt -= 50
         self.fullness -= 20
         self.happiness -= 10
 
@@ -131,6 +136,7 @@ class Man(Human):
         print('{} played basketball'.format(self.name))
         self.happiness += 100
         self.house.money -= 40
+        Human.money_spent += 40
 
     def act(self):
         if super().act():
@@ -154,6 +160,7 @@ class Woman(Human):
         print('{} bought some junk again'.format(self.name))
         self.house.money -= 200
         self.happiness += 100
+        Human.money_spent += 200
 
     def act(self):
         if super().act():
@@ -287,3 +294,6 @@ for week in range(1, 53):
             print(inhabitant)
         print(bun)
         print(my_sweet_home)
+
+cprint('Total earned {} this year'.format(Human.money_earned), color='blue')
+cprint('Total spent {} this year'.format(Human.money_spent), color='blue')
