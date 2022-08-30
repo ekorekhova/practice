@@ -174,6 +174,8 @@ class Woman(Human):
 
 
 class House:
+    money_dissapeared = 0
+    incidents = 0
 
     def __init__(self):
         self.food = 50
@@ -183,7 +185,25 @@ class House:
 
     def __str__(self):
         return 'There is {} human food, {} cat food, {} money left in the house '\
-            .format(self.food, self.cat_food, self.money)
+            .format(round(self.food, 1), self.cat_food, round(self.money, 2))
+
+    def money_incident(self):
+        self.money -= self.money/2
+        House.money_dissapeared += self.money
+        House.incidents += 1
+        cprint('HALF OF MONEY DISSAPEARED!!!', color='red', on_color='on_grey')
+
+    def food_incident(self):
+        self.food -= self.food/2
+        House.incidents += 1
+        cprint('HALF OF FOOD DISSAPEARED!!!', color='red', on_color='on_grey')
+
+    def act(self):
+        dice = randint(1, 500)
+        if dice == 2:
+            self.money_incident()
+        elif dice == 6:
+            self.food_incident()
 
 
 class DayOfTheWeek:
@@ -286,6 +306,7 @@ for week in range(1, 53):
         for part_of_the_day in parts_of_the_day:
             cprint(part_of_the_day.name, color='green')
             bun.act()
+            my_sweet_home.act()
             for inhabitant in inhabitants:
                 inhabitant.waking_up(day, part_of_the_day)
                 inhabitant.act()
@@ -297,3 +318,5 @@ for week in range(1, 53):
 
 cprint('Total earned {} this year'.format(Human.money_earned), color='blue')
 cprint('Total spent {} this year'.format(Human.money_spent), color='blue')
+cprint('Total dissapeared {} of money this year'.format(House.money_dissapeared), color='yellow')
+cprint('Total {} incidents happened this year'.format(House.incidents), color='yellow')
