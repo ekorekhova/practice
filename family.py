@@ -4,11 +4,10 @@ from random import randint
 from termcolor import cprint
 
 
-class Man:
+class Human:
 
-    def __init__(self, name, sex):
+    def __init__(self, name):
         self.name = name
-        self.sex = sex
         self.fullness = 50
         self.happiness = 100
         self.house = None
@@ -34,16 +33,6 @@ class Man:
         self.fullness -= 10
         self.happiness -= 60
 
-    def play_games(self):
-        if self.sex == 'male':
-            print('{} played Witcher'.format(self.name))
-            self.fullness -= 10
-            self.happiness += 20
-        elif self.sex == 'female':
-            print('{} watched how Mike plays Witcher'.format(self.name))
-            self.fullness -= 5
-            self.happiness += 20
-
     def groceries(self):
         if self.house.money >= 50:
             print('{} bought groceries'.format(self.name))
@@ -52,16 +41,6 @@ class Man:
             self.happiness -= 10
         else:
             print('{} NO MONEY!'.format(self.name))
-
-    def hobby(self):
-        if self.sex == 'female':
-            print('{} bought some junk again'.format(self.name))
-            self.house.money -= 200
-            self.happiness += 100
-        elif self.sex == 'male':
-            print('{} played basketball'.format(self.name))
-            self.happiness += 100
-            self.house.money -= 40
 
     def move_into_the_house(self, house):
         self.house = house
@@ -116,13 +95,8 @@ class Man:
                     self.buy_cat_food()
                 elif self.house.dirt > 40:
                     self.clean_the_house()
-                elif self.house.money > 300:
-                    if self.happiness < 100:
-                        self.hobby()
-                    else:
-                        self.play_games()
                 else:
-                    self.play_games()
+                    return True
             elif self.partoftheday.name == 'night':
                 if self.fullness < 30:
                     self.eat()
@@ -132,13 +106,8 @@ class Man:
                     self.buy_cat_food()
                 elif self.house.dirt > 40:
                     self.clean_the_house()
-                elif self.house.money > 300:
-                    if self.happiness < 100:
-                        self.hobby()
-                    else:
-                        self.play_games()
                 else:
-                    self.play_games()
+                    return True
         elif self.fullness < 30:
             self.eat()
         elif self.house.food < 30:
@@ -147,13 +116,54 @@ class Man:
             self.buy_cat_food()
         elif self.house.dirt > 40:
             self.clean_the_house()
-        elif self.house.money > 300:
-            if self.happiness < 100:
-                self.hobby()
+        else:
+            return True
+
+
+class Man(Human):
+
+    def play_games(self):
+        print('{} played Witcher'.format(self.name))
+        self.fullness -= 10
+        self.happiness += 20
+
+    def hobby(self):
+        print('{} played basketball'.format(self.name))
+        self.happiness += 100
+        self.house.money -= 40
+
+    def act(self):
+        if super().act():
+            if self.house.money > 300:
+                if self.happiness < 100:
+                    self.hobby()
+                else:
+                    self.play_games()
             else:
                 self.play_games()
-        else:
-            self.play_games()
+
+
+class Woman(Human):
+
+    def watch_games(self):
+        print('{} watched how Mike plays Witcher'.format(self.name))
+        self.fullness -= 5
+        self.happiness += 20
+
+    def hobby(self):
+        print('{} bought some junk again'.format(self.name))
+        self.house.money -= 200
+        self.happiness += 100
+
+    def act(self):
+        if super().act():
+            if self.house.money > 300:
+                if self.happiness < 100:
+                    self.hobby()
+                else:
+                    self.watch_games()
+            else:
+                self.watch_games()
 
 
 class House:
@@ -231,8 +241,8 @@ class Cat:
 
 
 inhabitants = [
-    Man(name='Mike', sex='male'),
-    Man(name='Kate', sex='female'),
+    Man(name='Mike'),
+    Woman(name='Kate'),
 ]
 
 days_of_the_week = [
